@@ -1,14 +1,24 @@
 # FULL-STACK Personal Project Management Tool Project
 
-# Stack
+## Stack
 
 - Spring Boot 3
 - Java (version 17)
-- MySQL
+- H2 Database
 - ReactJS
-- JavaScript
-- CSS
 - Postman
+
+## Project API endpoints (Project)
+- http://localhost:8080/api/project		(POST new project)
+
+
+## Start backend (localhost:8080) frontend folder
+- mvn spring-boot:run
+
+## Start frontend (localhost:3000) frontend folder
+- npm install
+- cd frontend
+- npm run dev
 
 ## Back-end
 
@@ -18,11 +28,3 @@
 ## Front-end
 
 - [ReactJS](https://react.dev/)
-
-## Start backend (localhost:8080) frontend folder
-- mvn spring-boot:run
-
-## Start frontend (localhost:3000) frontend folder
-- npm install
-- cd frontend
-- npm run dev
