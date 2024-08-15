@@ -29,4 +29,21 @@ public class ProjectController {
         Project newProject = projectService.saveOrUpdateProject(project);
         return new ResponseEntity<Project>(newProject, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<?> getProjectById(@PathVariable String projectId) {
+        Project project = projectService.findProjectByIdentifier(projectId);
+        return new ResponseEntity<Project>(project, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public Iterable<Project> getAllProjects() {
+        return projectService.findAllProjects();
+    }
+
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<?> updateProjectById(@PathVariable String projectId) {
+        projectService.deleteProjectByIdentifier(projectId);
+        return new ResponseEntity<String>("Project with ID: " + projectId +  " deleted!" , HttpStatus.OK);
+    }
 }
