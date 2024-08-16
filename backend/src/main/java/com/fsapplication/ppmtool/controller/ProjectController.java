@@ -42,8 +42,17 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{projectId}")
-    public ResponseEntity<?> updateProjectById(@PathVariable String projectId) {
+    public ResponseEntity<?> deleteProjectById(@PathVariable String projectId) {
         projectService.deleteProjectByIdentifier(projectId);
         return new ResponseEntity<String>("Project with ID: " + projectId +  " deleted!" , HttpStatus.OK);
     }
+
+//    @PutMapping("/{projectId}")
+//    public ResponseEntity<?> updateProjectById(@PathVariable String projectId, @Valid @RequestBody Project project, BindingResult result) {
+//        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+//        if (errorMap != null) return errorMap;
+//
+//        Project updatedProject = projectService.updateProjectByIdentifier(projectId, project);
+//        return new ResponseEntity<Project>(updatedProject, HttpStatus.OK);
+//    }
 }

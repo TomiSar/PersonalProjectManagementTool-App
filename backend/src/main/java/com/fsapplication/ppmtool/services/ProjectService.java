@@ -43,4 +43,16 @@ public class ProjectService {
         }
         projectRepository.delete(project);
     }
+
+//    public Project updateProjectByIdentifier(String projectId, Project updatedProject) {
+//        Project project = projectRepository.findByProjectIdentifier(projectId);
+//
+//        project.setProjectName(updatedProject.getProjectName());
+//        project.setDescription(updatedProject.getDescription());
+//        project.setStart_date(updatedProject.getStart_date());
+//        project.setEnd_date(updatedProject.getEnd_date());
+//        project.setUpdated_At(updatedProject.getUpdated_At());
+//
+//        return projectRepository.save(project);
+//    }
 }
