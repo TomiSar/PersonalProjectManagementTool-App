@@ -24,13 +24,13 @@ public class Project {
     private String projectIdentifier;
     @NotBlank(message = "Project description is required")
     private String description;
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/Finland", locale = "fi-Fi")
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date start_date;
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/Finland", locale = "fi-Fi")
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date end_date;
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/Finland", locale = "fi-Fi")
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date created_At;
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Europe/Finland", locale = "fi-Fi")
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
 
     public Project() {
