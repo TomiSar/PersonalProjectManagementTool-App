@@ -1,6 +1,10 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createProject } from '../../actions/projectActions';
+import { useNavigate } from 'react-router-dom';
 
-function AddProject() {
+function AddProject({ createProject }) {
   const [projectData, setProjectData] = useState({
     projectName: '',
     projectIdentifier: '',
@@ -8,6 +12,8 @@ function AddProject() {
     start_date: '',
     end_date: '',
   });
+
+  const navigate = useNavigate(); // Hook for programmatic navigation
 
   const onChange = (e) => {
     setProjectData({
@@ -25,19 +31,11 @@ function AddProject() {
       start_date: projectData.start_date,
       end_date: projectData.end_date,
     };
-    console.log(newProject);
+
+    createProject(newProject, navigate); // Pass navigate to the action
   };
 
   return (
-    // check name attribute input fields
-    // create constructor
-    // set state
-    // set value on input fields
-    // create onChange function
-    // set onChange on each input field
-    // bind on constructor
-    // check state change in the react extension
-
     <div className='project'>
       <div className='container'>
         <div className='row'>
@@ -70,7 +68,6 @@ function AddProject() {
               <div className='form-group mt-2'>
                 <textarea
                   className='form-control form-control-lg'
-                  type='text'
                   placeholder='Project Description'
                   name='description'
                   value={projectData.description}
@@ -106,4 +103,8 @@ function AddProject() {
   );
 }
 
-export default AddProject;
+AddProject.propTypes = {
+  createProject: PropTypes.func.isRequired,
+};
+
+export default connect(null, { createProject })(AddProject);

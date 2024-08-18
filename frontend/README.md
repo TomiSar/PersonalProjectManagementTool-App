@@ -16,11 +16,17 @@
 ## Documentation
 
 - https://reactrouter.com/en/main
+- https://redux.js.org/
+- https://react-redux.js.org/
 
 ## Installation of needed Packages for front-end (npm or yarn)
 
 - npm i bootstrap
 - npm i react-router-dom
+- npm i redux
+- npm i react-redux
+- npm i redux-thunk
+- npm i axios
 
 ## install node modules (frontend)
 
