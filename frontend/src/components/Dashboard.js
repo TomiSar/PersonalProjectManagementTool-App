@@ -1,7 +1,17 @@
+import { useEffect } from 'react';
 import CreateProjectButton from './Project/CreateProjectButton';
 import ProjectItem from './Project/ProjectItem';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { getProjects } from '../actions/projectActions';
 
-function Dashboard() {
+function Dashboard({ getProjects, project }) {
+  const { projects } = project;
+
+  useEffect(() => {
+    getProjects();
+  }, [getProjects, project]);
+
   return (
     <div className='projects'>
       <div className='container'>
@@ -12,7 +22,9 @@ function Dashboard() {
             <CreateProjectButton />
             <br />
             <hr />
-            <ProjectItem />
+            {projects.map((project) => (
+              <ProjectItem key={project.id} project={project} />
+            ))}
           </div>
         </div>
       </div>
@@ -20,4 +32,13 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+Dashboard.propTypes = {
+  getProjects: PropTypes.func.isRequired,
+  project: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  project: state.project,
+});
+
+export default connect(mapStateToProps, { getProjects })(Dashboard);

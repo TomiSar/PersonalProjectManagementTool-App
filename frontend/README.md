@@ -18,6 +18,7 @@
 - https://reactrouter.com/en/main
 - https://redux.js.org/
 - https://react-redux.js.org/
+- https://getbootstrap.com/docs/4.0/components/forms/#how-it-works
 
 ## Installation of needed Packages for front-end (npm or yarn)
 
