@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProject } from '../../actions/projectActions';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 function AddProject({ createProject, errors }) {
   const [projectData, setProjectData] = useState({
@@ -48,7 +49,9 @@ function AddProject({ createProject, errors }) {
               <form onSubmit={onSubmit}>
                 <div className='form-group'>
                   <input
-                    className='form-control form-control-lg'
+                    className={classNames('form-control form-control-lg', {
+                      'is-invalid': errors.projectName,
+                    })}
                     type='text'
                     placeholder='Project Name'
                     name='projectName'
@@ -56,12 +59,14 @@ function AddProject({ createProject, errors }) {
                     onChange={onChange}
                   />
                   {errors.projectName && (
-                    <p className='text-danger'>{errors.projectName}</p>
+                    <div className='invalid-feedback'>{errors.projectName}</div>
                   )}
                 </div>
                 <div className='form-group mt-2'>
                   <input
-                    className='form-control form-control-lg'
+                    className={classNames('form-control form-control-lg', {
+                      'is-invalid': errors.projectIdentifier,
+                    })}
                     type='text'
                     placeholder='Unique Project ID'
                     name='projectIdentifier'
@@ -69,19 +74,23 @@ function AddProject({ createProject, errors }) {
                     onChange={onChange}
                   />
                   {errors.projectIdentifier && (
-                    <p className='text-danger'>{errors.projectIdentifier}</p>
+                    <div className='invalid-feedback'>
+                      {errors.projectIdentifier}
+                    </div>
                   )}
                 </div>
                 <div className='form-group mt-2'>
                   <textarea
-                    className='form-control form-control-lg'
+                    className={classNames('form-control form-control-lg', {
+                      'is-invalid': errors.description,
+                    })}
                     placeholder='Project Description'
                     name='description'
                     value={projectData.description}
                     onChange={onChange}
                   />
                   {errors.description && (
-                    <p className='text-danger'>{errors.description}</p>
+                    <div className='invalid-feedback'>{errors.description}</div>
                   )}
                 </div>
                 <h6>Start Date</h6>
