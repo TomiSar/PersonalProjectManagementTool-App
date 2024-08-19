@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { GET_ERRORS } from './types';
+import { PROJECT_URL } from '../constants';
 
 export const createProject = (project, navigate) => async (dispatch) => {
   try {
-    await axios.post('http://localhost:8080/api/project', project);
-    navigate('/dashboard'); // Use the passed navigate function to redirect
+    await axios.post(`${PROJECT_URL}`, project);
+    navigate('/dashboard');
   } catch (err) {
     dispatch({
       type: GET_ERRORS,

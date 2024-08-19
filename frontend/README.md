@@ -27,6 +27,7 @@
 - npm i react-redux
 - npm i redux-thunk
 - npm i axios
+- npm i classnames
 
 ## install node modules (frontend)
 
