@@ -9,8 +9,10 @@
 - Postman
 
 ## Project API endpoints (Project)
-- http://localhost:8080/api/project		(POST new project)
-
+- http://localhost:8080/api/project			    (POST create new Project)
+- http://localhost:8080/api/project/{projectId}	(GET Project projectId)
+- http://localhost:8080/api/project/all			(GET all Projects)
+- http://localhost:8080/api/project/{projectId}	(DELETE project projectId)
 
 ## Start backend (localhost:8080) frontend folder
 - mvn spring-boot:run
