@@ -18,19 +18,26 @@ public class Project {
 
     @NotBlank(message = "Project Name is required")
     private String projectName;
+
     @NotBlank(message = "Project identifier is required")
     @Size(min = 4, max= 5, message = "Please enter 4-5 character Unique ID")
     @Column(updatable = false, unique = true)
     private String projectIdentifier;
+
     @NotBlank(message = "Project Description is required")
     private String description;
-    @JsonFormat(pattern = "yyyy-mm-dd")
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date start_date;
-    @JsonFormat(pattern = "yyyy-mm-dd")
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date end_date;
-    @JsonFormat(pattern = "yyyy-mm-dd")
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Column(updatable = false)
     private Date created_At;
-    @JsonFormat(pattern = "yyyy-mm-dd")
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date updated_At;
 
     public Project() {

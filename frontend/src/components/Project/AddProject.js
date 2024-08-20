@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createProject } from '../../actions/projectActions';
-import { useNavigate } from 'react-router-dom';
+import { formatDateYearFirst } from '../../utils/helpers';
 import classNames from 'classnames';
 
 function AddProject({ createProject, errors }) {
@@ -17,9 +18,11 @@ function AddProject({ createProject, errors }) {
   const navigate = useNavigate();
 
   const onChange = (e) => {
+    const { name, value } = e.target;
+
     setProjectData({
       ...projectData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -29,8 +32,8 @@ function AddProject({ createProject, errors }) {
       projectName: projectData.projectName,
       projectIdentifier: projectData.projectIdentifier,
       description: projectData.description,
-      start_date: projectData.start_date,
-      end_date: projectData.end_date,
+      start_date: formatDateYearFirst(projectData.start_date),
+      end_date: formatDateYearFirst(projectData.end_date),
     };
 
     createProject(newProject, navigate);
@@ -93,7 +96,7 @@ function AddProject({ createProject, errors }) {
                     <div className='invalid-feedback'>{errors.description}</div>
                   )}
                 </div>
-                <h6>Start Date</h6>
+                <h6 className='mt-2'>Start Date</h6>
                 <div className='form-group'>
                   <input
                     className='form-control form-control-lg'
@@ -103,7 +106,7 @@ function AddProject({ createProject, errors }) {
                     onChange={onChange}
                   />
                 </div>
-                <h6>Estimated End Date</h6>
+                <h6 className='mt-2'>Estimated End Date</h6>
                 <div className='form-group'>
                   <input
                     className='form-control form-control-lg'
