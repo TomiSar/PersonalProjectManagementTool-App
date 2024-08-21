@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { PROJECT_URL } from '../constants';
-import { GET_ERRORS, GET_PROJECTS, GET_PROJECT } from './types';
+import { GET_ERRORS, GET_PROJECTS, GET_PROJECT, DELETE_PROJECT } from './types';
 
 export const createProject = (project, navigate) => async (dispatch) => {
   try {
@@ -35,5 +35,19 @@ export const getProject = (id, navigate) => async (dispatch) => {
     });
   } catch (error) {
     navigate('/dashboard');
+  }
+};
+
+export const deleteProject = (id) => async (dispatch) => {
+  if (
+    window.confirm(
+      'Are you sure you want to permanently delete this project and related data?'
+    )
+  ) {
+    await axios.delete(`${PROJECT_URL}/${id}`);
+    dispatch({
+      type: DELETE_PROJECT,
+      payload: id,
+    });
   }
 };
