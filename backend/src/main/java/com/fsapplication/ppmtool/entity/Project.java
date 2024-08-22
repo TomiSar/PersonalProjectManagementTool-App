@@ -1,15 +1,18 @@
 package com.fsapplication.ppmtool.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Project {
 
     @Id
@@ -40,8 +43,15 @@ public class Project {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private Date updated_At;
 
-    public Project() {
-    }
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    @JsonIgnore
+    private Backlog backlog;
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JsonIgnore
+//    private User user;
+
+    private String projectLeader;
 
     @PrePersist
     protected void onCreate() {
