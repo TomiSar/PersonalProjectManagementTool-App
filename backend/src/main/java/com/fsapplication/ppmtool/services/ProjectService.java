@@ -1,7 +1,9 @@
 package com.fsapplication.ppmtool.services;
 
+import com.fsapplication.ppmtool.entity.Backlog;
 import com.fsapplication.ppmtool.entity.Project;
 import com.fsapplication.ppmtool.exceptions.ProjectIdException;
+import com.fsapplication.ppmtool.repositories.BacklogRepository;
 import com.fsapplication.ppmtool.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +14,28 @@ public class ProjectService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public Project saveOrUpdateProject(Project project){
-        try{
-            project.setProjectIdentifier(project.getProjectIdentifier().toUpperCase());
+    @Autowired
+    private BacklogRepository backlogRepository;
+
+    public Project saveOrUpdateProject(Project project) {
+        String projectId = project.getProjectIdentifier().toUpperCase();
+        try {
+            project.setProjectIdentifier(projectId);
+
+            if(project.getId() == null){
+                Backlog backlog = new Backlog();
+                project.setBacklog(backlog);
+                backlog.setProject(project);
+                backlog.setProjectIdentifier(projectId);
+            }
+
+            if(project.getId() != null){
+                project.setBacklog(backlogRepository.findByProjectIdentifier(projectId));
+            }
+
             return projectRepository.save(project);
-        }catch (Exception e){
-            throw new ProjectIdException("Project ID: " + project.getProjectIdentifier().toUpperCase() + " already exists");
+        } catch (Exception e) {
+            throw new ProjectIdException("Project ID: " + projectId + " already exists");
         }
 
     }
@@ -44,15 +62,28 @@ public class ProjectService {
         projectRepository.delete(project);
     }
 
-//    public Project updateProjectByIdentifier(String projectId, Project updatedProject) {
-//        Project project = projectRepository.findByProjectIdentifier(projectId);
-//
-//        project.setProjectName(updatedProject.getProjectName());
-//        project.setDescription(updatedProject.getDescription());
-//        project.setStart_date(updatedProject.getStart_date());
-//        project.setEnd_date(updatedProject.getEnd_date());
-//        project.setUpdated_At(updatedProject.getUpdated_At());
-//
-//        return projectRepository.save(project);
-//    }
+    public Project updateProjectByIdentifier(String projectIdentifier, Project project) {
+        String projectId = project.getProjectIdentifier().toUpperCase();
+        Project existingProject = projectRepository.findByProjectIdentifier(projectId);
+
+        if (existingProject == null) {
+            throw new ProjectIdException("Failed to update Project ID: " + projectIdentifier + " doesn't exist.");
+        }
+
+        // Update fields
+        existingProject.setProjectName(project.getProjectName());
+        existingProject.setDescription(project.getDescription());
+        existingProject.setStart_date(project.getStart_date());
+        existingProject.setEnd_date(project.getEnd_date());
+
+        // Update the backlog if necessary
+        Backlog backlog = backlogRepository.findByProjectIdentifier(projectId);
+        if (backlog != null) {
+            backlog.setProjectIdentifier(projectId);
+            backlogRepository.save(backlog);
+            existingProject.setBacklog(backlog);
+        }
+
+        return projectRepository.save(existingProject);
+    }
 }
