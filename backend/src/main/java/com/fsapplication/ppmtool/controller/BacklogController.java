@@ -29,4 +29,9 @@ public class BacklogController {
         ProjectTask newProjectTask = projectTaskService.saveProjectTask(backlogId, projectTask);
         return new ResponseEntity<ProjectTask>(newProjectTask, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{backlogId}")
+    public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlogId) {
+        return projectTaskService.findBacklogById(backlogId);
+    }
 }
