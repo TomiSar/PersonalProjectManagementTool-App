@@ -18,6 +18,7 @@ public class ProjectTaskService {
 
     @Autowired
     private ProjectTaskRepository projectTaskRepository;
+
     @Autowired
     private ProjectRepository projectRepository;
 
@@ -60,5 +61,26 @@ public class ProjectTaskService {
             throw new ProjectNotFoundException("Project ID: " + projectId + " doesn't exist.");
         }
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectId);
+    }
+
+    public ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectTaskId) {
+        // Backlog exists
+        Backlog backlog =  backlogRepository.findByProjectIdentifier(backlogId);
+        if (backlog == null) {
+            throw new ProjectNotFoundException("Project ID: " + backlogId + " doesn't exist.");
+        }
+
+        // Task exists
+        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(projectTaskId);
+        if (projectTask == null) {
+            throw new ProjectNotFoundException("Project Task ID: " + projectTaskId + " not found.");
+        }
+
+        // Backlog/projectId in the path corresponds to the right project
+        if (!projectTask.getProjectIdentifier().equals(backlogId)) {
+            throw new ProjectNotFoundException("Project Task ID: " + projectTaskId + " doesn't exist on project: " + backlogId);
+        }
+
+        return projectTaskRepository.findByProjectSequence(projectTaskId);
     }
 }
