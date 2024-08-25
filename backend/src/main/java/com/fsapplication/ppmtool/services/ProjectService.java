@@ -42,10 +42,10 @@ public class ProjectService {
 
     public Project findProjectByIdentifier(String projectId) {
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
-
         if (project == null) {
             throw new ProjectIdException("Project ID: " + projectId + " doesn't exist.");
         }
+
         return project;
     }
 
@@ -55,17 +55,16 @@ public class ProjectService {
 
     public void deleteProjectByIdentifier(String projectId) {
         Project project = projectRepository.findByProjectIdentifier(projectId);
-
         if (project == null) {
             throw new ProjectIdException("Failed to delete Project ID: " + projectId + " doesn't exist.");
         }
+
         projectRepository.delete(project);
     }
 
     public Project updateProjectByIdentifier(String projectIdentifier, Project project) {
         String projectId = project.getProjectIdentifier().toUpperCase();
         Project existingProject = projectRepository.findByProjectIdentifier(projectId);
-
         if (existingProject == null) {
             throw new ProjectIdException("Failed to update Project ID: " + projectIdentifier + " doesn't exist.");
         }
