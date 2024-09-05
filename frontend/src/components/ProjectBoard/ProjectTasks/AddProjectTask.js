@@ -1,7 +1,47 @@
-import { Link, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { addProjectTask } from '../../../actions/backlogActions';
+import { formatDateYearFirst } from '../../../utils/helpers';
+import classNames from 'classnames';
 
-function AddProjectTask() {
+function AddProjectTask({ addProjectTask, errors }) {
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [projectTaskData, setProjectTaskData] = useState({
+    summary: '',
+    acceptanceCriteria: '',
+    status: '',
+    priority: 0,
+    dueDate: '',
+    projectIdentifier: id,
+  });
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+
+    setProjectTaskData({
+      ...projectTaskData,
+      [name]: value,
+    });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+    const newProjectTask = {
+      summary: projectTaskData.summary,
+      acceptanceCriteria: projectTaskData.acceptanceCriteria,
+      status: projectTaskData.status,
+      priority: projectTaskData.priority,
+      dueDate: formatDateYearFirst(projectTaskData.dueDate),
+    };
+
+    addProjectTask(projectTaskData.projectIdentifier, newProjectTask, navigate);
+  };
+
   return (
     <div className='add-PBI'>
       <div className='container'>
@@ -12,21 +52,30 @@ function AddProjectTask() {
             </Link>
             <h4 className='display-4 text-center'>Add Project Task</h4>
             <p className='lead text-center'>Project Name + Project Code</p>
-            <form>
+            <form onSubmit={onSubmit}>
               <div className='form-group'>
                 <input
+                  className={classNames('form-control form-control-lg', {
+                    'is-invalid': errors.summary,
+                  })}
                   type='text'
-                  className='form-control form-control-lg'
                   name='summary'
                   placeholder='Project Task summary'
+                  value={projectTaskData.summary}
+                  onChange={onChange}
                 />
+                {errors.summary && (
+                  <div className='invalid-feedback'>{errors.summary}</div>
+                )}
               </div>
               <div className='form-group mt-2'>
                 <textarea
                   className='form-control form-control-lg'
                   placeholder='Acceptance Criteria'
                   name='acceptanceCriteria'
-                ></textarea>
+                  value={projectTaskData.acceptanceCriteria}
+                  onChange={onChange}
+                />
               </div>
               <h6 className='mt-2'>Due Date</h6>
               <div className='form-group mt-2'>
@@ -34,12 +83,16 @@ function AddProjectTask() {
                   type='date'
                   className='form-control form-control-lg'
                   name='dueDate'
+                  value={projectTaskData.dueDate}
+                  onChange={onChange}
                 />
               </div>
               <div className='form-group mt-2'>
                 <select
                   className='form-control form-control-lg'
                   name='priority'
+                  value={projectTaskData.priority}
+                  onChange={onChange}
                 >
                   <option value={0}>Select Priority</option>
                   <option value={1}>High</option>
@@ -49,7 +102,12 @@ function AddProjectTask() {
               </div>
 
               <div className='form-group mt-2'>
-                <select className='form-control form-control-lg' name='status'>
+                <select
+                  className='form-control form-control-lg'
+                  name='status'
+                  value={projectTaskData.status}
+                  onChange={onChange}
+                >
                   <option value=''>Select Status</option>
                   <option value='TO_DO'>TO DO</option>
                   <option value='IN_PROGRESS'>IN PROGRESS</option>
@@ -66,4 +124,13 @@ function AddProjectTask() {
   );
 }
 
-export default AddProjectTask;
+AddProjectTask.propType = {
+  addProjectTask: PropTypes.func.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { addProjectTask })(AddProjectTask);
