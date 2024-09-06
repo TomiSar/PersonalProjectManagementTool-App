@@ -1,19 +1,46 @@
-import React, { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Backlog from './Backlog';
 import { getBacklog } from '../../actions/backlogActions';
 
-function ProjectBoard({ backlog, getBacklog }) {
+function ProjectBoard({ getBacklog, backlog, errors }) {
   const { id } = useParams();
-  const { projectTasks } = backlog;
+  // eslint-disable-next-line no-unused-vars
+  const [localErrors, setLocalErrors] = useState({});
 
   useEffect(() => {
     getBacklog(id);
   }, [id, getBacklog]);
 
-  // console.log(projectTasks);
+  useEffect(() => {
+    if (errors) setLocalErrors(errors);
+  }, [errors]);
+
+  const renderBoardContent = (errors, projectTasks) => {
+    if (projectTasks.length < 1) {
+      if (errors.projectNotFound) {
+        return (
+          <div className='alert alert-danger text-center' role='alert'>
+            <h3 className='fs-4'>{errors.projectNotFound}</h3>
+          </div>
+        );
+      } else {
+        return (
+          <div className='alert alert-info text-center' role='alert'>
+            <h3 className='fs-4'>
+              Project Board doesn't have any Project Tasks
+            </h3>
+          </div>
+        );
+      }
+    } else {
+      return <Backlog projectTasks={projectTasks} />;
+    }
+  };
+
+  const { projectTasks } = backlog;
 
   return (
     <div className='container'>
@@ -22,18 +49,20 @@ function ProjectBoard({ backlog, getBacklog }) {
       </Link>
       <br />
       <hr />
-      <Backlog projectTasks={projectTasks} />
+      {renderBoardContent(errors, projectTasks)}
     </div>
   );
 }
 
 ProjectBoard.propTypes = {
-  backlog: PropTypes.object.isRequired,
   getBacklog: PropTypes.func.isRequired,
+  backlog: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   backlog: state.backlog,
+  errors: state.errors,
 });
 
 export default connect(mapStateToProps, { getBacklog })(ProjectBoard);
