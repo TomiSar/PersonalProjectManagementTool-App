@@ -1,16 +1,19 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import Backlog from './Backlog';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import Backlog from './Backlog';
 import { getBacklog } from '../../actions/backlogActions';
 
-function ProjectBoard({ getBacklog, backlog }) {
+function ProjectBoard({ backlog, getBacklog }) {
   const { id } = useParams();
+  const { projectTasks } = backlog;
 
   useEffect(() => {
     getBacklog(id);
   }, [id, getBacklog]);
+
+  // console.log(projectTasks);
 
   return (
     <div className='container'>
@@ -19,14 +22,14 @@ function ProjectBoard({ getBacklog, backlog }) {
       </Link>
       <br />
       <hr />
-      <Backlog />
+      <Backlog projectTasks={projectTasks} />
     </div>
   );
 }
 
 ProjectBoard.propTypes = {
-  getBackLog: PropTypes.func.isRequired,
   backlog: PropTypes.object.isRequired,
+  getBacklog: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
