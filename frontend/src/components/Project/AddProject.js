@@ -117,7 +117,7 @@ function AddProject({ createProject, errors }) {
                   />
                 </div>
                 <input
-                  className='btn btn-primary btn-block mt-4'
+                  className='btn btn-success btn-block mt-4'
                   type='submit'
                 />
               </form>

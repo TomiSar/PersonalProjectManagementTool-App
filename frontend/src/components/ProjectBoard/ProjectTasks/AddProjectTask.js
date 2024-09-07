@@ -80,8 +80,8 @@ function AddProjectTask({ addProjectTask, errors }) {
               <h6 className='mt-2'>Due Date</h6>
               <div className='form-group mt-2'>
                 <input
-                  type='date'
                   className='form-control form-control-lg'
+                  type='date'
                   name='dueDate'
                   value={projectTaskData.dueDate}
                   onChange={onChange}
@@ -115,7 +115,7 @@ function AddProjectTask({ addProjectTask, errors }) {
                 </select>
               </div>
 
-              <input type='submit' className='btn btn-primary btn-block mt-4' />
+              <input type='submit' className='btn btn-success btn-block mt-4' />
             </form>
           </div>
         </div>

@@ -1,6 +1,13 @@
+import { Link } from 'react-router-dom';
+
 function ProjectTask({ projectTask }) {
-  const { projectSequence, priority, summary, acceptanceCriteria } =
-    projectTask;
+  const {
+    projectSequence,
+    priority,
+    summary,
+    acceptanceCriteria,
+    projectIdentifier,
+  } = projectTask;
 
   const priorityString =
     priority === 1 ? 'HIGH' : priority === 2 ? 'MEDIUM' : 'LOW';
@@ -16,12 +23,15 @@ function ProjectTask({ projectTask }) {
       <div className='card-body bg-light'>
         <h5 className='card-title'>{summary}</h5>
         <p className='card-text text-truncate fst-italic fs-6'>
-          {/* {acceptanceCriteria || 'No Acceptance Criteria'} */}
           {acceptanceCriteria}
         </p>
-        <a href='' className='btn btn-primary'>
+        <Link
+          to={`/updateProjectTask/${projectIdentifier}/${projectSequence}`}
+          href=''
+          className='btn btn-primary'
+        >
           View / Update
-        </a>
+        </Link>
 
         <button className='btn btn-danger m-4'>Delete</button>
       </div>
