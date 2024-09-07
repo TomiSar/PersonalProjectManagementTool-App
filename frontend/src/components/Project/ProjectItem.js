@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { deleteProject } from '../../actions/projectActions';
 
-function ProjectItem({ project, deleteProject }) {
+function ProjectItem({ deleteProject, project }) {
   const onDeleteClick = (id) => {
     deleteProject(id);
   };
@@ -46,8 +46,8 @@ function ProjectItem({ project, deleteProject }) {
 }
 
 ProjectItem.propTypes = {
-  project: PropTypes.object.isRequired,
   deleteProject: PropTypes.func.isRequired,
+  project: PropTypes.object.isRequired,
 };
 
 export default connect(null, { deleteProject })(ProjectItem);

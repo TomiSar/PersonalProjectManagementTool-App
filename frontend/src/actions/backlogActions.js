@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { BACKLOG_URL } from '../constants';
-import { GET_ERRORS, GET_BACKLOG, GET_PROJECT_TASK } from './types';
+import {
+  GET_ERRORS,
+  GET_BACKLOG,
+  GET_PROJECT_TASK,
+  DELETE_PROJECT_TASK,
+} from './types';
 
 export const addProjectTask =
   (backlogId, projectTask, navigate) => async (dispatch) => {
@@ -65,6 +70,21 @@ export const updateProjectTask =
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data,
+      });
+    }
+  };
+
+export const deleteProjectTask =
+  (backlogId, projectTaskId) => async (dispatch) => {
+    if (
+      window.confirm(
+        `Are you sure you want to permanently delete project task ${projectTaskId} and all it's related data?`
+      )
+    ) {
+      await axios.delete(`${BACKLOG_URL}/${backlogId}/${projectTaskId}`);
+      dispatch({
+        type: DELETE_PROJECT_TASK,
+        payload: projectTaskId,
       });
     }
   };
