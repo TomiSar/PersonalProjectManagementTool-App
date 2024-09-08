@@ -8,21 +8,25 @@
 - ReactJS
 - Postman
 
-## Project API endpoints (Project)
+## API endpoints (Project)
 
 - http://localhost:8080/api/project (POST create new Project)
 - http://localhost:8080/api/project/{projectId} (GET Project projectId)
 - http://localhost:8080/api/project/all (GET all Projects)
 - http://localhost:8080/api/project/{projectId} (UPDATE project projectId)
 - http://localhost:8080/api/project/{projectId} (DELETE project projectId)
-
-## Project API endpoints (Project Task)
-
-- http://localhost:8080/api/backlog/{backlogId} (POST create new Project Task by backlogId)
-- http://localhost:8080/api/project/{backlogId} (GET Project Tasks by backlogId)
 - http://localhost:8080/api/project/{backlogId}/{projectSequence} (GET Project by backlogId and projectSequence)
 - http://localhost:8080/api/project/{backlogId}/{projectSequence} (UPDATE Project by backlogId and projectSequence)
 - http://localhost:8080/api/project/{backlogId}/{projectSequence} (DELETE project by backlogId and projectSequence)
+
+## API endpoints (Project Task)
+
+- http://localhost:8080/api/backlog/{backlogId} (POST create new Project Task by backlogId)
+- http://localhost:8080/api/project/{backlogId} (GET Project Tasks by backlogId)
+
+## API endpoints (User)
+
+- http://localhost:8080/api/users/register (POST create new User)
 
 ## Start backend (localhost:8080) frontend folder
 
@@ -35,7 +39,12 @@
 - npm run dev
 
 ## Documentation
+- https://jwt.io/
 - https://getbootstrap.com/docs/5.0/getting-started/introduction/
+- https://spring.io/guides/topicals/spring-security-architecture/
+- https://spring.io/guides/gs/securing-web
+- https://auth0.com/blog/spring-boot-authorization-tutorial-secure-an-api-java/
+- https://www.miliari.me/blog/spring-security-jwt-auth0
 
 ## Back-end
 

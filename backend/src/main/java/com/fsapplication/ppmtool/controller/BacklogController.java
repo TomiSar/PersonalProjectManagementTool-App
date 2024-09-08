@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/backlog")
-@CrossOrigin("*")
+@CrossOrigin
 public class BacklogController {
 
     @Autowired
