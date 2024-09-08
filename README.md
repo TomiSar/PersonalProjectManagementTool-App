@@ -27,7 +27,6 @@
 ## API endpoints (User)
 
 - http://localhost:8080/api/users/register (POST create new User)
-
 ## Start backend (localhost:8080) frontend folder
 
 - mvn spring-boot:run
@@ -45,6 +44,7 @@
 - https://spring.io/guides/gs/securing-web
 - https://auth0.com/blog/spring-boot-authorization-tutorial-secure-an-api-java/
 - https://www.miliari.me/blog/spring-security-jwt-auth0
+- https://docs.spring.io/spring-framework/reference/core/validation/validator.html
 
 ## Back-end
 
