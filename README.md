@@ -27,17 +27,31 @@
 ## API endpoints (User)
 
 - http://localhost:8080/api/users/register (POST create new User)
+- http://localhost:8080/api/users/login (POST login with existing User)
+
+## **Create env.properties file in backend folder Add personal env.properties values in file**
+
+- **_DATABASE_URL=jdbc:mysql://localhost:3306/{DB_NAME}_**
+- **_DATABASE_USERNAME={DATABASE_USERNAME}_**
+- **_DATABASE_PASSWORD={DATABASE_PASSWORD}_**
+- **_JWT_SECRET={JWTSECRET}_**
+
+## **This line in application.properties file import env.properties**
+
+- **_spring.config.import=file:env.properties_**
+
 ## Start backend (localhost:8080) frontend folder
 
 - mvn spring-boot:run
 
 ## Start frontend (localhost:3000) frontend folder
 
-- npm install
 - cd frontend
-- npm run dev
+- npm install
+- npm run start
 
 ## Documentation
+
 - https://jwt.io/
 - https://getbootstrap.com/docs/5.0/getting-started/introduction/
 - https://spring.io/guides/topicals/spring-security-architecture/
