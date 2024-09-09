@@ -9,7 +9,6 @@ import org.springframework.validation.Validator;
 public class UserValidator implements Validator {
 
     /** This Validator validates only User instances */
-
     @Override
     public boolean supports(Class<?> clazz) {
         return User.class.equals(clazz);

@@ -1,16 +1,24 @@
 package com.fsapplication.ppmtool.security;
 
+import com.fsapplication.ppmtool.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import static com.fsapplication.ppmtool.security.SecurityConstants.H2_URL;
+import static com.fsapplication.ppmtool.security.SecurityConstants.SIGN_UP_URLS;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +31,27 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    // Use this bean instead of the previous configure(AuthenticationManagerBuilder) method
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(customUserDetailsService);
+        authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
+        return authenticationProvider;
+    }
+
+    // Get AuthenticationManager bean
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -49,10 +78,12 @@ public class SecurityConfig {
                                 "/*/*.css",
                                 "/*/*.js"
                         ).permitAll()
-                        .requestMatchers("/api/users/**").permitAll().anyRequest().authenticated());
+                        .requestMatchers(SIGN_UP_URLS).permitAll()
+                        .requestMatchers(H2_URL).permitAll()
+                        .anyRequest().authenticated());
 
-        // Secure your API endpoints
-        // Adds the JWT filter to the security filter chain.
+        // Add the DaoAuthenticationProvider to the filter chain
+        http.authenticationProvider(authenticationProvider());
 
         return http.build();
     }
