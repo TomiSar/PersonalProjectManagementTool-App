@@ -24,6 +24,15 @@ public class ProjectService {
     private UserRepository userRepository;
 
     public Project saveOrUpdateProject(Project project, String username) {
+        if (project.getId() != null) {
+            Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
+            if (existingProject != null && (!existingProject.getProjectLeader().equals(username))) {
+                throw new ProjectNotFoundException("Project: " + project.getProjectIdentifier() + " doesn't exist in your projects");
+            } else if (existingProject == null) {
+                throw new ProjectNotFoundException("Project ID: " + project.getProjectIdentifier() + " can't be updated because it doesn't exist");
+            }
+        }
+
         String projectId = project.getProjectIdentifier().toUpperCase();
         try {
             // Project belongs to User that creates Project
@@ -69,29 +78,5 @@ public class ProjectService {
 
     public void deleteProjectByIdentifier(String projectId, String username) {
         projectRepository.delete(findProjectByIdentifier(projectId, username));
-    }
-
-    public Project updateProjectByIdentifier(String projectIdentifier, Project project) {
-        String projectId = project.getProjectIdentifier().toUpperCase();
-        Project existingProject = projectRepository.findByProjectIdentifier(projectId);
-        if (existingProject == null) {
-            throw new ProjectIdException("Failed to update Project ID: " + projectIdentifier + " doesn't exist");
-        }
-
-        // Update fields
-        existingProject.setProjectName(project.getProjectName());
-        existingProject.setDescription(project.getDescription());
-        existingProject.setStart_date(project.getStart_date());
-        existingProject.setEnd_date(project.getEnd_date());
-
-        // Update the backlog if necessary
-        Backlog backlog = backlogRepository.findByProjectIdentifier(projectId);
-        if (backlog != null) {
-            backlog.setProjectIdentifier(projectId);
-            backlogRepository.save(backlog);
-            existingProject.setBacklog(backlog);
-        }
-
-        return projectRepository.save(existingProject);
     }
 }
