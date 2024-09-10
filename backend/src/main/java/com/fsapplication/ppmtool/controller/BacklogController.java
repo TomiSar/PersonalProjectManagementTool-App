@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/api/backlog")
 @CrossOrigin
@@ -22,17 +24,20 @@ public class BacklogController {
     private MapValidationErrorService mapValidationErrorService;
 
     @PostMapping("/{backlogId}")
-    public ResponseEntity<?> addToBackLog(@Valid @RequestBody ProjectTask projectTask, BindingResult result, @PathVariable String backlogId) {
+    public ResponseEntity<?> addToBackLog(@Valid @RequestBody ProjectTask projectTask, BindingResult result,
+                                          @PathVariable String backlogId, Principal principal) {
+        // Show DELETE
+        // Custom Exception
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) return errorMap;
 
-        ProjectTask newProjectTask = projectTaskService.saveProjectTask(backlogId, projectTask);
+        ProjectTask newProjectTask = projectTaskService.saveProjectTask(backlogId, projectTask, principal.getName());
         return new ResponseEntity<ProjectTask>(newProjectTask, HttpStatus.CREATED);
     }
 
     @GetMapping("/{backlogId}")
-    public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlogId) {
-        return projectTaskService.findBacklogById(backlogId);
+    public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlogId, Principal principal) {
+        return projectTaskService.findBacklogById(backlogId, principal.getName());
     }
 
     @GetMapping("/{backlogId}/{projectTaskId}")

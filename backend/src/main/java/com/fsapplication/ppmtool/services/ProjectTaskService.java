@@ -22,50 +22,45 @@ public class ProjectTaskService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public ProjectTask saveProjectTask(String projectIdentifier, ProjectTask projectTask) {
+    @Autowired
+    private ProjectService projectService;
 
-        try {
-            // ProjectTasks to be added to a specific project, project != null, Backlog exists
-            // Set the Backlog to ProjectTask
-            Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
-            projectTask.setBacklog(backlog);
+    public ProjectTask saveProjectTask(String projectIdentifier, ProjectTask projectTask, String username) {
 
-            // Project sequence: IDPRO-1  IDPRO-2 (Update the Backlog SEQUENCE) and Add sequence to ProjectTask
-            // Increment the backlog sequence and Update and save the backlog sequence
-            Integer backlogSequence = backlog.getPTSequence();
-            backlogSequence++;
-            backlog.setPTSequence(backlogSequence);
-            backlogRepository.save(backlog);
+        // ProjectTasks to be added to a specific project, project != null, Backlog exists
+        Backlog backlog = projectService.findProjectByIdentifier(projectIdentifier, username).getBacklog();
+        // Set the Backlog to ProjectTask
+        projectTask.setBacklog(backlog);
 
-            projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
-            projectTask.setProjectIdentifier(projectIdentifier);
+        // Project sequence: IDPRO-1, IDPRO-2, IDPRO-3, ... Add updated Backlog (backlogSequence) to ProjectTask (projectSequence)
+        Integer backlogSequence = backlog.getPTSequence();
+        backlogSequence++;
+        backlog.setPTSequence(backlogSequence);
+        backlogRepository.save(backlog);
 
-            // INITIAL priority when priority null and INITIAL status when status is null
-            if (projectTask.getStatus() == null || projectTask.getStatus().isBlank()){
-                projectTask.setStatus("TO_DO");
-            }
-            // Future we need projectTask.getPriority() == 0 to handle the form
-            if (projectTask.getPriority() == 0 || projectTask.getPriority() == null) {
-                projectTask.setPriority(3);
-            }
+        projectTask.setProjectSequence(projectIdentifier + "-" + backlogSequence);
+        projectTask.setProjectIdentifier(projectIdentifier);
 
-            return projectTaskRepository.save(projectTask);
-        } catch (Exception e) {
-            throw new ProjectNotFoundException("Project not Found");
+        // INITIAL priority when priority null and INITIAL status when status is null
+        if (projectTask.getStatus() == null || projectTask.getStatus().isBlank()) {
+            projectTask.setStatus("TO_DO");
         }
+        // Future we need projectTask.getPriority() == 0 to handle the form
+        if (projectTask.getPriority() == null || projectTask.getPriority() == 0) {
+            projectTask.setPriority(3);
+        }
+
+        return projectTaskRepository.save(projectTask);
     }
 
-    public Iterable<ProjectTask>findBacklogById(String projectId) {
-        Project project = projectRepository.findByProjectIdentifier(projectId);
-        if (project == null) {
-            throw new ProjectNotFoundException("Project ID: " + projectId + " doesn't exist");
-        }
+    public Iterable<ProjectTask> findBacklogById(String projectId, String username) {
+        projectService.findProjectByIdentifier(projectId, username);
         return projectTaskRepository.findByProjectIdentifierOrderByPriority(projectId);
     }
 
     public ProjectTask findProjectTaskByProjectSequence(String backlogId, String projectTaskId) {
         // Backlog exists
-        Backlog backlog =  backlogRepository.findByProjectIdentifier(backlogId);
+        Backlog backlog = backlogRepository.findByProjectIdentifier(backlogId);
         if (backlog == null) {
             throw new ProjectNotFoundException("Project ID: " + backlogId + " doesn't exist");
         }
