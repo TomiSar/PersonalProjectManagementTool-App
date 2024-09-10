@@ -1,8 +1,10 @@
 package com.fsapplication.ppmtool.security;
 
 import com.fsapplication.ppmtool.entity.User;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -27,7 +29,7 @@ public class JwtTokenProvider {
 
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
-        Date now = new Date();
+        Date now = new Date(System.currentTimeMillis());
         Date validityTime = new Date(now.getTime() + EXPIRATION_TIME);
         String userId = Long.toString(user.getId());
 
@@ -46,5 +48,21 @@ public class JwtTokenProvider {
     }
 
     //Validate the token
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(getSecretKey()).build().parseClaimsJws(token);
+            return true;
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException
+                | UnsupportedJwtException | IllegalArgumentException ex){
+            System.out.println("Exception: " + ex.getMessage());
+        }
+        return false;
+    }
+
     //Get user Id from token
+    public Long getUserIdFromJwt(String token){
+        Claims claims = Jwts.parser().setSigningKey(getSecretKey()).build().parseClaimsJws(token).getBody();
+        String id = (String)claims.get("id");
+        return Long.parseLong(id);
+    }
 }

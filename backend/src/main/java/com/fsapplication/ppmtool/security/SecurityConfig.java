@@ -16,6 +16,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.fsapplication.ppmtool.security.SecurityConstants.H2_URL;
 import static com.fsapplication.ppmtool.security.SecurityConstants.SIGN_UP_URLS;
@@ -38,7 +39,11 @@ public class SecurityConfig {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    // Use this bean instead of the previous configure(AuthenticationManagerBuilder) method
+    @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return  new JwtAuthenticationFilter();
+    }
+
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -47,7 +52,6 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 
-    // Get AuthenticationManager bean
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
@@ -82,8 +86,11 @@ public class SecurityConfig {
                         .requestMatchers(H2_URL).permitAll()
                         .anyRequest().authenticated());
 
-        // Add the DaoAuthenticationProvider to the filter chain
+        // Add the custom authentication provider
         http.authenticationProvider(authenticationProvider());
+
+        // Add the JwtAuthenticationFilter before UsernamePasswordAuthenticationFilter
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

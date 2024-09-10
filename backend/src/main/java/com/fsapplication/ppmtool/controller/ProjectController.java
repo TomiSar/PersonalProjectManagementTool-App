@@ -23,7 +23,6 @@ public class ProjectController {
 
     @PostMapping("")
     public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
-
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) return errorMap;
 
@@ -48,7 +47,7 @@ public class ProjectController {
         return new ResponseEntity<String>("Project with ID: " + projectId +  " deleted!" , HttpStatus.OK);
     }
 
-    @PutMapping("/{projectId}")
+    @PatchMapping("/{projectId}")
     public ResponseEntity<?> updateProjectById(@PathVariable String projectId, @Valid @RequestBody Project project, BindingResult result) {
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
         if (errorMap != null) return errorMap;

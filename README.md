@@ -53,6 +53,8 @@
 ## Documentation
 
 - https://jwt.io/
+- https://auth0.com/docs/secure/tokens/json-web-tokens/json-web-token-claims?utm_source=google&utm_campaign=emea_nordics_fin_all_ciam-all_dg-ao_auth0_search_google_text_kw_OIDC_utm2&utm_medium=cpc&utm_id=aNK4z000000UE47GAG&gad_source=1&gclid=EAIaIQobChMIpera-r62iAMVaguiAx2KbiHFEAAYASAAEgJHY_D_BwE
+- https://www.epochconverter.com/
 - https://getbootstrap.com/docs/5.0/getting-started/introduction/
 - https://spring.io/guides/topicals/spring-security-architecture/
 - https://spring.io/guides/gs/securing-web
