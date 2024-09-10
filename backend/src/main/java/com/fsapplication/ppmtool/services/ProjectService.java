@@ -2,9 +2,11 @@ package com.fsapplication.ppmtool.services;
 
 import com.fsapplication.ppmtool.entity.Backlog;
 import com.fsapplication.ppmtool.entity.Project;
+import com.fsapplication.ppmtool.entity.User;
 import com.fsapplication.ppmtool.exceptions.ProjectIdException;
 import com.fsapplication.ppmtool.repositories.BacklogRepository;
 import com.fsapplication.ppmtool.repositories.ProjectRepository;
+import com.fsapplication.ppmtool.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,19 +19,26 @@ public class ProjectService {
     @Autowired
     private BacklogRepository backlogRepository;
 
-    public Project saveOrUpdateProject(Project project) {
+    @Autowired
+    private UserRepository userRepository;
+
+    public Project saveOrUpdateProject(Project project, String username) {
         String projectId = project.getProjectIdentifier().toUpperCase();
         try {
+            // Project belongs to User that creates Project
+            User user = userRepository.findByUsername(username);
+            project.setUser(user);
+            project.setProjectLeader(user.getUsername());
             project.setProjectIdentifier(projectId);
 
-            if(project.getId() == null){
+            if (project.getId() == null){
                 Backlog backlog = new Backlog();
                 project.setBacklog(backlog);
                 backlog.setProject(project);
                 backlog.setProjectIdentifier(projectId);
             }
 
-            if(project.getId() != null){
+            if (project.getId() != null){
                 project.setBacklog(backlogRepository.findByProjectIdentifier(projectId));
             }
 
@@ -37,7 +46,6 @@ public class ProjectService {
         } catch (Exception e) {
             throw new ProjectIdException("Project ID: " + projectId + " already exists");
         }
-
     }
 
     public Project findProjectByIdentifier(String projectId) {
@@ -58,7 +66,6 @@ public class ProjectService {
         if (project == null) {
             throw new ProjectIdException("Failed to delete Project ID: " + projectId + " doesn't exist");
         }
-
         projectRepository.delete(project);
     }
 
