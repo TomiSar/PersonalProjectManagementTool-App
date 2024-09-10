@@ -4,6 +4,7 @@ import com.fsapplication.ppmtool.entity.Backlog;
 import com.fsapplication.ppmtool.entity.Project;
 import com.fsapplication.ppmtool.entity.User;
 import com.fsapplication.ppmtool.exceptions.ProjectIdException;
+import com.fsapplication.ppmtool.exceptions.ProjectNotFoundException;
 import com.fsapplication.ppmtool.repositories.BacklogRepository;
 import com.fsapplication.ppmtool.repositories.ProjectRepository;
 import com.fsapplication.ppmtool.repositories.UserRepository;
@@ -48,25 +49,26 @@ public class ProjectService {
         }
     }
 
-    public Project findProjectByIdentifier(String projectId) {
+    public Project findProjectByIdentifier(String projectId, String username) {
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
         if (project == null) {
             throw new ProjectIdException("Project ID: " + projectId + " doesn't exist");
         }
 
+        //Only want to return the project if the user looking for it is the owner
+        if (!project.getProjectLeader().equals(username)) {
+            throw new ProjectNotFoundException("Project: " + projectId + " doesn't exist in your projects");
+        }
+
         return project;
     }
 
-    public Iterable<Project> findAllProjects() {
-        return projectRepository.findAll();
+    public Iterable<Project> findAllProjects(String username) {
+        return projectRepository.findAllByProjectLeader(username);
     }
 
-    public void deleteProjectByIdentifier(String projectId) {
-        Project project = projectRepository.findByProjectIdentifier(projectId);
-        if (project == null) {
-            throw new ProjectIdException("Failed to delete Project ID: " + projectId + " doesn't exist");
-        }
-        projectRepository.delete(project);
+    public void deleteProjectByIdentifier(String projectId, String username) {
+        projectRepository.delete(findProjectByIdentifier(projectId, username));
     }
 
     public Project updateProjectByIdentifier(String projectIdentifier, Project project) {
