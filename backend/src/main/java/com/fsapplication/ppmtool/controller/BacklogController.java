@@ -1,10 +1,10 @@
 package com.fsapplication.ppmtool.controller;
 
 import com.fsapplication.ppmtool.entity.ProjectTask;
-import com.fsapplication.ppmtool.services.MapValidationErrorService;
 import com.fsapplication.ppmtool.services.ProjectTaskService;
+import com.fsapplication.ppmtool.util.ValidationUtil;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,22 +15,16 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/backlog")
 @CrossOrigin
+@RequiredArgsConstructor
 public class BacklogController {
 
-    @Autowired
-    private ProjectTaskService projectTaskService;
-
-    @Autowired
-    private MapValidationErrorService mapValidationErrorService;
+    private final ProjectTaskService projectTaskService;
+    private final ValidationUtil validationUtil;
 
     @PostMapping("/{backlogId}")
     public ResponseEntity<?> addToBackLog(@Valid @RequestBody ProjectTask projectTask, BindingResult result,
                                           @PathVariable String backlogId, Principal principal) {
-        // Show DELETE
-        // Custom Exception
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null) return errorMap;
-
+        validationUtil.handleValidationErrors(result);
         ProjectTask newProjectTask = projectTaskService.saveProjectTask(backlogId, projectTask, principal.getName());
         return new ResponseEntity<ProjectTask>(newProjectTask, HttpStatus.CREATED);
     }
@@ -49,9 +43,7 @@ public class BacklogController {
     @PatchMapping("/{backlogId}/{projectTaskId}")
     public ResponseEntity<?> updateProjectTask(@Valid @RequestBody ProjectTask projectTask, BindingResult result,
                                                @PathVariable String backlogId, @PathVariable String projectTaskId, Principal principal) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if (errorMap != null) return errorMap;
-
+        validationUtil.handleValidationErrors(result);
         ProjectTask updatedTask = projectTaskService.updateByProjectSequence(projectTask, backlogId, projectTaskId, principal.getName());
         return new ResponseEntity<ProjectTask>(updatedTask, HttpStatus.OK);
     }

@@ -4,11 +4,11 @@ import com.fsapplication.ppmtool.entity.User;
 import com.fsapplication.ppmtool.payload.JWTLoginSuccessResponse;
 import com.fsapplication.ppmtool.payload.LoginRequest;
 import com.fsapplication.ppmtool.security.JwtTokenProvider;
-import com.fsapplication.ppmtool.services.MapValidationErrorService;
 import com.fsapplication.ppmtool.services.UserService;
+import com.fsapplication.ppmtool.util.ValidationUtil;
 import com.fsapplication.ppmtool.validator.UserValidator;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,29 +23,20 @@ import static com.fsapplication.ppmtool.security.SecurityConstants.TOKEN_PREFIX;
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private MapValidationErrorService mapValidationErrorService;
-
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private UserValidator userValidator;
-
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final UserValidator userValidator;
+    private final JwtTokenProvider tokenProvider;
+    private final AuthenticationManager authenticationManager;
+    private final ValidationUtil validationUtil;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result) {
-        // Validate passwords match and errors
+        // Validate password and errors
         userValidator.validate(user, result);
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if(errorMap != null) return errorMap;
+        validationUtil.handleValidationErrors(result);
 
         User newUser = userService.saveUser(user);
         return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
@@ -53,9 +44,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result) {
-        // Validate errors
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-        if(errorMap != null) return errorMap;
+        validationUtil.handleValidationErrors(result);
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -69,5 +58,4 @@ public class UserController {
 
         return ResponseEntity.ok(new JWTLoginSuccessResponse(true, jwt));
     }
-
 }
