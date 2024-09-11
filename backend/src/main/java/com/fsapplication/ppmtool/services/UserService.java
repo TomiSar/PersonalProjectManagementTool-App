@@ -29,4 +29,8 @@ public class UserService {
             throw new UsernameAlreadyExistsException("Username: " + newUser.getUsername() + " already exists");
         }
     }
+
+    public Iterable<User> findAllUsers() {
+        return userRepository.findAll();
+    }
 }

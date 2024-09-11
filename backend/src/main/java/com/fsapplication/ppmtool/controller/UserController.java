@@ -58,4 +58,9 @@ public class UserController {
 
         return ResponseEntity.ok(new JWTLoginSuccessResponse(true, jwt));
     }
+
+    @GetMapping("/all")
+    public Iterable<User> getAllUsers() {
+        return userService.findAllUsers();
+    }
 }
