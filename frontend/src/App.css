@@ -63,3 +63,7 @@ img {
 .form-control::placeholder {
   color: #bbb !important;
 }
+
+.bgHeader {
+  background-image: url('/images/bgheader.jpg');
+}
