@@ -1,13 +1,12 @@
 package com.fsapplication.ppmtool.exceptions;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ProjectNotFoundExceptionResponse {
 
-    private String ProjectNotFound;
+    private String projectNotFound;
 
-    public ProjectNotFoundExceptionResponse(String projectNotFound) {
-        ProjectNotFound = projectNotFound;
-    }
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,19 +24,21 @@ public class User  implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Email(message = "Username needs to be an Email")
+    @Email(message = "Username type should be Email")
     @NotBlank(message = "Username is required")
     @Column(unique = true)
     private String username;
 
-    @NotBlank(message = "Please enter your full name")
+    @NotBlank(message = "Full name is required")
     private String fullName;
 
-    @NotBlank(message = "Password field is required")
+    @NotBlank(message = "Password is required")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
     @Transient
     private String confirmPassword;
+
     private Date create_At;
     private Date update_At;
 

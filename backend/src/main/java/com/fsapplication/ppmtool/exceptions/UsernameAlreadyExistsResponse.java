@@ -7,5 +7,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class UsernameAlreadyExistsResponse {
 
-    private String username;
+    private String usernameAlreadyExists;
 }

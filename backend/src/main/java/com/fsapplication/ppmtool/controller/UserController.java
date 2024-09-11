@@ -48,7 +48,7 @@ public class UserController {
         if(errorMap != null) return errorMap;
 
         User newUser = userService.saveUser(user);
-        return  new ResponseEntity<User>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<User>(newUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
