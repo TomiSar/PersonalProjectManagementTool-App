@@ -15,14 +15,17 @@
 
 ## Documentation
 
+- https://redux-toolkit.js.org/
+- https://axios-http.com/docs/config_defaults
 - https://reactrouter.com/en/main
 - https://redux.js.org/
 - https://react-redux.js.org/
 - https://getbootstrap.com/docs/4.0/components/forms/#how-it-works
-- https://axios-http.com/docs/config_defaults
 
 ## Installation of needed Packages for front-end (npm or yarn)
 
+- npm i react-icons --save
+- npm i @reduxjs/toolkit
 - npm i jwt-decode
 - npm i bootstrap
 - npm i react-router-dom

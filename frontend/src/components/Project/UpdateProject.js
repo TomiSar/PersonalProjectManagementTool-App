@@ -133,8 +133,10 @@ function UpdateProject({ getProject, createProject, project, errors }) {
                   onChange={onChange}
                 />
               </div>
-
-              <input type='submit' className='btn btn-success btn-block mt-4' />
+              <input
+                className='btn btn-lg btn-success w-100 mt-4'
+                type='submit'
+              />
             </form>
           </div>
         </div>

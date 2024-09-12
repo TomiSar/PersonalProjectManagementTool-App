@@ -33,14 +33,14 @@ function ProjectTask({ deleteProjectTask, projectTask }) {
           {acceptanceCriteria}
         </p>
         <Link
+          className='btn btn-primary m-4 w-45'
           to={`/updateProjectTask/${projectIdentifier}/${projectSequence}`}
-          className='btn btn-primary'
         >
-          View / Update
+          Update
         </Link>
 
         <button
-          className='btn btn-danger m-4'
+          className='btn btn-danger m-2 w-45'
           onClick={() =>
             onDeleteClick(
               projectTask.projectIdentifier,

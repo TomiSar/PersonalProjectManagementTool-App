@@ -66,4 +66,7 @@ img {
 
 .bgHeader {
   background-image: url('/images/bgheader.jpg');
+  background-position: center;
+  height: 100px;
+  width: 100%;
 }

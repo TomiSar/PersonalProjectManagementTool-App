@@ -8,6 +8,7 @@ import {
 } from '../../../actions/backlogActions';
 import { formatDateYearFirst } from '../../../utils/helpers';
 import classNames from 'classnames';
+import { IoIosArrowBack } from 'react-icons/io';
 
 function UpdateProjectTask({
   getProjectTask,
@@ -86,7 +87,7 @@ function UpdateProjectTask({
               to={`/projectBoard/${projectTaskData.projectIdentifier}`}
               className='btn btn-light'
             >
-              Back to Project Board
+              <IoIosArrowBack /> Back to Project Board
             </Link>
             <h4 className='display-4 text-center'>Update Project Task</h4>
             <p className='lead text-center'>
@@ -156,7 +157,10 @@ function UpdateProjectTask({
                 </select>
               </div>
 
-              <input type='submit' className='btn btn-success btn-block mt-4' />
+              <input
+                className='btn btn-lg btn-success w-100 mt-4'
+                type='submit'
+              />
             </form>
           </div>
         </div>

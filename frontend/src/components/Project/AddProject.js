@@ -45,9 +45,7 @@ function AddProject({ createProject, errors }) {
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
-              <h5 className='display-4 text-center'>
-                Create / Edit Project form
-              </h5>
+              <h5 className='display-4 text-center'>Create Project form</h5>
               <hr />
               <form onSubmit={onSubmit}>
                 <div className='form-group'>
@@ -117,7 +115,7 @@ function AddProject({ createProject, errors }) {
                   />
                 </div>
                 <input
-                  className='btn btn-success btn-block mt-4'
+                  className='btn btn-lg btn-success w-100 mt-4'
                   type='submit'
                 />
               </form>

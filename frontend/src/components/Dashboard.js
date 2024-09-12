@@ -10,7 +10,7 @@ function Dashboard({ getProjects, project }) {
 
   useEffect(() => {
     getProjects();
-  }, [getProjects, project]);
+  }, [getProjects]);
 
   return (
     <div className='projects'>
