@@ -37,7 +37,7 @@
 - **_DATABASE_PASSWORD={DATABASE_PASSWORD}_**
 - **_JWT_SECRET={JWTSECRET}_**
 
-## **This line in application.properties file import env.properties**
+## **Import env.properties in application.properties**
 
 - **_spring.config.import=file:env.properties_**
 

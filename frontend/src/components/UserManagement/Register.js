@@ -31,7 +31,6 @@ function Register({ createNewUser, errors }) {
       password: userData.password,
       confirmPassword: userData.confirmPassword,
     };
-    // console.log(newUser);
     createNewUser(newUser, navigate);
   };
 
