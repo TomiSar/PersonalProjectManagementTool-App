@@ -70,3 +70,7 @@ img {
   height: 100px;
   width: 100%;
 }
+
+.projectCard {
+  background-image: url('/images/project.png');
+}

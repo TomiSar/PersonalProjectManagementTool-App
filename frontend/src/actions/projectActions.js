@@ -41,7 +41,7 @@ export const getProject = (id, navigate) => async (dispatch) => {
 export const deleteProject = (id) => async (dispatch) => {
   if (
     window.confirm(
-      `Are you sure you want to permanently delete project ${id} and all it's related data?`
+      `Are you sure you want to permanently delete project ${id} and all it's related Project Task data?`
     )
   ) {
     await axios.delete(`${PROJECT_URL}/${id}`);

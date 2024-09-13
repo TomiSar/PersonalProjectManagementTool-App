@@ -16,6 +16,7 @@
 ## Documentation
 
 - https://redux-toolkit.js.org/
+- https://fontawesome.com/icons
 - https://axios-http.com/docs/config_defaults
 - https://reactrouter.com/en/main
 - https://redux.js.org/

@@ -6,10 +6,7 @@ import { FaUserAstronaut } from 'react-icons/fa';
 
 function Header({ logout, security }) {
   const { validToken, user } = security;
-
-  const handleLogout = () => {
-    logout();
-  };
+  const handleLogout = () => logout();
 
   return (
     <nav className='bgHeader fs-4 fw-bold navbar navbar-expand-sm mb-4'>
@@ -46,7 +43,7 @@ function Header({ logout, security }) {
                     </Link>
                   </li>
                   <li className='nav-item'>
-                    <Link className='nav-link' to='/' onClick={handleLogout}>
+                    <Link className='nav-link' onClick={handleLogout}>
                       Logout
                     </Link>
                   </li>

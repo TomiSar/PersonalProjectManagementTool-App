@@ -13,6 +13,28 @@ import Landing from './components/Layout/Landing';
 import Login from './components/UserManagement/Login';
 import Register from './components/UserManagement/Register';
 
+import { jwtDecode } from 'jwt-decode';
+import { setJwtToken } from './utils/helpers';
+import { SET_CURRENT_USER } from './actions/types';
+import { logout } from './actions/securityActions';
+
+const jwtToken = localStorage.jwtToken;
+
+if (jwtToken) {
+  setJwtToken(jwtToken);
+  const decoded_jwtToken = jwtDecode(jwtToken);
+  store.dispatch({
+    type: SET_CURRENT_USER,
+    payload: decoded_jwtToken,
+  });
+
+  const currentTime = Date.now() / 1000;
+  if (decoded_jwtToken.exp < currentTime) {
+    store.dispatch(logout());
+    window.location.href = '/';
+  }
+}
+
 function App() {
   return (
     <Provider store={store}>

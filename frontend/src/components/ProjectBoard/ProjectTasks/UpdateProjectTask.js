@@ -28,7 +28,7 @@ function UpdateProjectTask({
     priority: '',
     dueDate: '',
     projectIdentifier: '',
-    // create_At: '',
+    create_At: formatDateYearFirst(projectTask.create_At),
   });
 
   useEffect(() => {
@@ -46,7 +46,6 @@ function UpdateProjectTask({
         priority: projectTask.priority || 0,
         dueDate: formatDateYearFirst(projectTask.dueDate) || '',
         projectIdentifier: projectTask.projectIdentifier || '',
-        // create_At: formatDateYearFirst(projectTask.create_At) || '',
       });
     }
   }, [projectTask]);
@@ -72,7 +71,6 @@ function UpdateProjectTask({
       priority: projectTaskData.priority,
       dueDate: formatDateYearFirst(projectTaskData.dueDate),
       projectIdentifier: projectTaskData.projectIdentifier,
-      // create_At: formatDateYearFirst(projectTask.create_At),
     };
 
     updateProjectTask(backlogId, projectTaskId, updatedProjectTask, navigate);

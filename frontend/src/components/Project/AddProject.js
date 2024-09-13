@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createProject } from '../../actions/projectActions';
 import { formatDateYearFirst } from '../../utils/helpers';
 import classNames from 'classnames';
+import { IoIosArrowBack } from 'react-icons/io';
 
 function AddProject({ createProject, errors }) {
   const [projectData, setProjectData] = useState({
@@ -45,6 +46,9 @@ function AddProject({ createProject, errors }) {
         <div className='container'>
           <div className='row'>
             <div className='col-md-8 m-auto'>
+              <Link className='btn btn-light' to='/dashboard'>
+                <IoIosArrowBack /> Back to Dashboard
+              </Link>
               <h5 className='display-4 text-center'>Create Project form</h5>
               <hr />
               <form onSubmit={onSubmit}>
