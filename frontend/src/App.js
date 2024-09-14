@@ -12,7 +12,7 @@ import UpdateProjectTask from './components/ProjectBoard/ProjectTasks/UpdateProj
 import Landing from './components/Layout/Landing';
 import Login from './components/UserManagement/Login';
 import Register from './components/UserManagement/Register';
-
+import SecureRoute from './utils/SecureRoute';
 import { jwtDecode } from 'jwt-decode';
 import { setJwtToken } from './utils/helpers';
 import { SET_CURRENT_USER } from './actions/types';
@@ -46,15 +46,55 @@ function App() {
             <Route path='/' element={<Landing />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+
             {/* Private Routes */}
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/addProject' element={<AddProject />} />
-            <Route path='/updateProject/:id' element={<UpdateProject />} />
-            <Route path='/projectBoard/:id' element={<ProjectBoard />} />
-            <Route path='/addProjectTask/:id' element={<AddProjectTask />} />
+            <Route
+              path='/dashboard'
+              element={
+                <SecureRoute>
+                  <Dashboard />
+                </SecureRoute>
+              }
+            />
+            <Route
+              path='/addProject'
+              element={
+                <SecureRoute>
+                  <AddProject />
+                </SecureRoute>
+              }
+            />
+            <Route
+              path='/updateProject/:id'
+              element={
+                <SecureRoute>
+                  <UpdateProject />
+                </SecureRoute>
+              }
+            />
+            <Route
+              path='/projectBoard/:id'
+              element={
+                <SecureRoute>
+                  <ProjectBoard />
+                </SecureRoute>
+              }
+            />
+            <Route
+              path='/addProjectTask/:id'
+              element={
+                <SecureRoute>
+                  <AddProjectTask />
+                </SecureRoute>
+              }
+            />
             <Route
               path='/updateProjectTask/:backlogId/:projectTaskId'
-              element={<UpdateProjectTask />}
+              element={
+                <SecureRoute>
+                  <UpdateProjectTask />
+                </SecureRoute>
+              }
             />
           </Routes>
         </div>

@@ -29,6 +29,7 @@
 - http://localhost:8080/api/users/register (POST create new User)
 - http://localhost:8080/api/users/login (POST login with existing User)
 - http://localhost:8080/api/users/all (GET all Users)
+- http://localhost:8080/api/users/{username} (GET User By Username)
 
 ## **Create env.properties file in backend folder Add personal env.properties values in file**
 
