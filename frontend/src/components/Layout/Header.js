@@ -1,12 +1,19 @@
-import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/securityActions';
-import { FaUserAstronaut } from 'react-icons/fa';
+import { FaRegCircleUser } from 'react-icons/fa6';
 
 function Header({ logout, security }) {
+  const [isLoggedOut, setIsLoggedOut] = useState(false);
   const { validToken, user } = security;
-  const handleLogout = () => logout();
+
+  const handleLogout = async () => {
+    setIsLoggedOut(true);
+    window.location.href = '/';
+    await logout();
+  };
 
   return (
     <nav className='bgHeader fs-4 fw-bold navbar navbar-expand-sm mb-4'>
@@ -34,14 +41,16 @@ function Header({ logout, security }) {
             )}
           </ul>
           <div className='navbar-collapse justify-content-end'>
-            <ul className='navbar-nav ml-3'>
+            <ul className='navbar-nav ml-3 gap-5'>
               {validToken && user ? (
                 <>
-                  <li className='nav-item'>
-                    <Link className='nav-link' to='/dashboard'>
-                      <FaUserAstronaut /> {user.fullName}
-                    </Link>
-                  </li>
+                  {!isLoggedOut && (
+                    <li className='nav-item'>
+                      <Link className='nav-link' to='/dashboard'>
+                        <FaRegCircleUser className='fs-2' /> {user.fullName}
+                      </Link>
+                    </li>
+                  )}
                   <li className='nav-item'>
                     <Link className='nav-link' onClick={handleLogout}>
                       Logout

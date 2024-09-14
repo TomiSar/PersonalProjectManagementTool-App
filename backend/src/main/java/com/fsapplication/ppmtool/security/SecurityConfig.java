@@ -19,7 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static com.fsapplication.ppmtool.security.SecurityConstants.H2_URL;
-import static com.fsapplication.ppmtool.security.SecurityConstants.SIGN_UP_URLS;
+import static com.fsapplication.ppmtool.security.SecurityConstants.SIGNUP_URL;
+import static com.fsapplication.ppmtool.security.SecurityConstants.LOGIN_URL;
 
 @Configuration
 @EnableWebSecurity
@@ -82,7 +83,8 @@ public class SecurityConfig {
                                 "/*/*.css",
                                 "/*/*.js"
                         ).permitAll()
-                        .requestMatchers(SIGN_UP_URLS).permitAll()
+                        .requestMatchers(SIGNUP_URL).permitAll()
+                        .requestMatchers(LOGIN_URL).permitAll()
                         .requestMatchers(H2_URL).permitAll()
                         .anyRequest().authenticated());
 

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { createNewUser } from '../../actions/securityActions';
 import classNames from 'classnames';
 
-function Register({ createNewUser, errors }) {
+function Register({ createNewUser, errors, security }) {
   const [userData, setUserData] = useState({
     username: '',
     fullName: '',
@@ -14,6 +14,12 @@ function Register({ createNewUser, errors }) {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (security.validToken) {
+      navigate('/dashboard');
+    }
+  }, [security.validToken, navigate]);
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -120,10 +126,12 @@ function Register({ createNewUser, errors }) {
 Register.propTypes = {
   createNewUser: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  security: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
+  security: state.security,
 });
 
 export default connect(mapStateToProps, { createNewUser })(Register);

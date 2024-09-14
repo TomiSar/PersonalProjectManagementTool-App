@@ -22,6 +22,11 @@ function Dashboard({ getProjects, project }) {
             <CreateProjectButton />
             <br />
             <hr />
+            {projects.length < 1 && (
+              <div className='alert alert-info text-center' role='alert'>
+                <h3 className='fs-4'>Dashboard doesn't have any Projects</h3>
+              </div>
+            )}
             {projects.map((project) => (
               <ProjectItem key={project.id} project={project} />
             ))}

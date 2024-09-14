@@ -1,6 +1,17 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-function Landing() {
+function Landing({ security }) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (security.validToken) {
+      navigate('/dashboard');
+    }
+  }, [security.validToken, navigate]);
+
   return (
     <div className='landing'>
       <div className='light-overlay landing-inner text-dark'>
@@ -33,4 +44,12 @@ function Landing() {
   );
 }
 
-export default Landing;
+Landing.propTypes = {
+  security: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  security: state.security,
+});
+
+export default connect(mapStateToProps)(Landing);

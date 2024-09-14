@@ -52,5 +52,4 @@ export const logout = () => async (dispatch) => {
     type: SET_CURRENT_USER,
     payload: {},
   });
-  window.location.href = '/';
 };

@@ -33,8 +33,6 @@ function Login({ login, errors, security }) {
       username: userData.username,
       password: userData.password,
     };
-
-    // console.log(loginRequest);
     login(loginRequest);
   };
 
