@@ -15,14 +15,14 @@
 - http://localhost:8080/api/project/all (GET all Projects)
 - http://localhost:8080/api/project/{projectId} (UPDATE project projectId)
 - http://localhost:8080/api/project/{projectId} (DELETE project projectId)
-- http://localhost:8080/api/backlog/{backlogId}/{projectSequence} (UPDATE Project by backlogId and projectSequence)
 
-## API endpoints (Project Task)
+## API endpoints (ProjectTask)
 
-- http://localhost:8080/api/backlog/{backlogId} (POST create new Project Task by backlogId)
-- http://localhost:8080/api/backlog/{backlogId}/{projectSequence} (GET ProjectTask by backlogId and projectSequence)
-- http://localhost:8080/api/backlog/{backlogId} (GET Project Tasks by backlogId)
-- http://localhost:8080/api/backlog/{backlogId}/{projectSequence} (DELETE ProjectTask by backlogId and projectSequence)
+- http://localhost:8080/api/backlog/{projectId} (POST create new ProjectTask by projectId)
+- http://localhost:8080/api/backlog/{projectId} (GET ProjectTasks by projectId)
+- http://localhost:8080/api/backlog/{projectId}/{projectSequence} (GET ProjectTask by projectId and projectSequence)
+- http://localhost:8080/api/backlog/{projectId}/{projectSequence} (UPDATE Project by projectId and projectSequence)
+- http://localhost:8080/api/backlog/{projectId}/{projectSequence} (DELETE ProjectTask by projectId and projectSequence)
 
 ## API endpoints (User)
 

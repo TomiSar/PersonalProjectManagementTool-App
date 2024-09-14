@@ -22,10 +22,10 @@ public class ProjectController {
     private final ValidationUtil validationUtil;
 
     @PostMapping("")
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result, Principal principal) {
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result,
+                                              Principal principal) {
         validationUtil.handleValidationErrors(result);
-
-        Project newProject = projectService.saveOrUpdateProject(project, principal.getName());
+        Project newProject = projectService.saveProject(project, principal.getName());
         return new ResponseEntity<Project>(newProject, HttpStatus.CREATED);
     }
 
@@ -40,9 +40,18 @@ public class ProjectController {
         return projectService.findAllProjects(principal.getName());
     }
 
+    @PatchMapping("/{projectId}")
+    public ResponseEntity<?> updateProject(@Valid @PathVariable String projectId, @RequestBody Project project,
+                                           BindingResult result, Principal principal) {
+        validationUtil.handleValidationErrors(result);
+        project.setProjectIdentifier(projectId);
+        Project updatedProject = projectService.updateProject(project, principal.getName());
+        return new ResponseEntity<Project>(updatedProject, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{projectId}")
     public ResponseEntity<?> deleteProjectById(@PathVariable String projectId, Principal principal) {
         projectService.deleteProjectByIdentifier(projectId, principal.getName());
-        return new ResponseEntity<String>("Project with ID: " + projectId +  " deleted!" , HttpStatus.OK);
+        return new ResponseEntity<String>("Project with ID: " + projectId +  " deleted!", HttpStatus.OK);
     }
 }

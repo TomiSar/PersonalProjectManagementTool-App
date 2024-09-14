@@ -1,24 +1,20 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Backlog from './Backlog';
 import { getBacklog } from '../../actions/backlogActions';
+import { clearErrors } from '../../actions/errorActions';
 import { IoIosArrowBack } from 'react-icons/io';
 import { GoTasklist } from 'react-icons/go';
+import Backlog from './Backlog';
 
-function ProjectBoard({ getBacklog, backlog, errors }) {
+function ProjectBoard({ getBacklog, backlog, clearErrors, errors }) {
   const { id } = useParams();
-  // eslint-disable-next-line no-unused-vars
-  const [localErrors, setLocalErrors] = useState({});
 
   useEffect(() => {
+    clearErrors();
     getBacklog(id);
-  }, [id, getBacklog]);
-
-  useEffect(() => {
-    if (errors) setLocalErrors(errors);
-  }, [errors]);
+  }, [id, getBacklog, clearErrors]);
 
   const renderBoardContent = (errors, projectTasks) => {
     if (projectTasks.length < 1) {
@@ -26,6 +22,12 @@ function ProjectBoard({ getBacklog, backlog, errors }) {
         return (
           <div className='alert alert-danger text-center' role='alert'>
             <h3 className='fs-4'>{errors.projectNotFound}</h3>
+          </div>
+        );
+      } else if (errors.projectIdNotFound) {
+        return (
+          <div className='alert alert-danger text-center' role='alert'>
+            <h3 className='fs-4'>{errors.projectIdNotFound}</h3>
           </div>
         );
       } else {
@@ -62,6 +64,7 @@ function ProjectBoard({ getBacklog, backlog, errors }) {
 ProjectBoard.propTypes = {
   getBacklog: PropTypes.func.isRequired,
   backlog: PropTypes.object.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
 };
 
@@ -70,4 +73,6 @@ const mapStateToProps = (state) => ({
   errors: state.errors,
 });
 
-export default connect(mapStateToProps, { getBacklog })(ProjectBoard);
+export default connect(mapStateToProps, { getBacklog, clearErrors })(
+  ProjectBoard
+);

@@ -23,42 +23,56 @@ public class ProjectService {
     @Autowired
     private UserRepository userRepository;
 
-    public Project saveOrUpdateProject(Project project, String username) {
-        if (project.getId() != null) {
-            Project existingProject = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
-            if (existingProject != null && (!existingProject.getProjectLeader().equals(username))) {
-                throw new ProjectNotFoundException("Project: " + project.getProjectIdentifier() + " doesn't exist in your projects");
-            } else if (existingProject == null) {
-                throw new ProjectNotFoundException("Project ID: " + project.getProjectIdentifier() + " can't be updated because it doesn't exist");
-            }
-        }
-
+    public Project saveProject(Project project, String username) {
         String projectId = project.getProjectIdentifier().toUpperCase();
-        try {
-            // Project belongs to User that creates Project
-            User user = userRepository.findByUsername(username);
-            project.setUser(user);
-            project.setProjectLeader(user.getUsername());
-            project.setProjectIdentifier(projectId);
 
-            if (project.getId() == null){
-                Backlog backlog = new Backlog();
-                project.setBacklog(backlog);
-                backlog.setProject(project);
-                backlog.setProjectIdentifier(projectId);
-            }
+        // Set User details to Project
+        User user = userRepository.findByUsername(username);
+        project.setUser(user);
+        project.setProjectLeader(user.getUsername());
+        project.setProjectIdentifier(projectId);
 
-            if (project.getId() != null){
-                project.setBacklog(backlogRepository.findByProjectIdentifier(projectId));
-            }
-
-            return projectRepository.save(project);
-        } catch (Exception e) {
-            throw new ProjectIdException("Project ID: " + projectId + " already exists");
+        // New project create Backlog
+        if (project.getId() == null) {
+            Backlog backlog = new Backlog();
+            project.setBacklog(backlog);
+            backlog.setProject(project);
+            backlog.setProjectIdentifier(projectId);
         }
+        return projectRepository.save(project);
+    }
+
+    public Project updateProject(Project project, String username) {
+        String projectId = project.getProjectIdentifier().toUpperCase();
+        Project updatedProject = projectRepository.findByProjectIdentifier(projectId);
+
+        if (updatedProject == null) {
+            throw new ProjectNotFoundException("Project ID: " + projectId + " doesn't exist and can't be updated");
+        }
+
+        // User should be the project leader
+        if (!updatedProject.getProjectLeader().equals(username)) {
+            throw new ProjectNotFoundException("You don't have access to update Project ID: " + project.getProjectIdentifier());
+        }
+
+        // Update fields provided fields
+        if (project.getProjectName() != null) {
+            updatedProject.setProjectName(project.getProjectName());
+        }
+        if (project.getDescription() != null) {
+            updatedProject.setDescription(project.getDescription());
+        }
+        if (project.getStart_date() != null) {
+            updatedProject.setStart_date(project.getStart_date());
+        }
+        if (project.getEnd_date() != null) {
+            updatedProject.setEnd_date(project.getEnd_date());
+        }
+        return projectRepository.save(updatedProject);
     }
 
     public Project findProjectByIdentifier(String projectId, String username) {
+        // Only want to return the project if the user looking for it is the owner
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
         if (project == null) {
             throw new ProjectIdException("Project ID: " + projectId + " doesn't exist");
@@ -66,7 +80,7 @@ public class ProjectService {
 
         //Only want to return the project if the user looking for it is the owner
         if (!project.getProjectLeader().equals(username)) {
-            throw new ProjectNotFoundException("Project: " + projectId + " doesn't exist in your projects");
+            throw new ProjectNotFoundException("You don't have access to Project ID: " + projectId);
         }
 
         return project;
