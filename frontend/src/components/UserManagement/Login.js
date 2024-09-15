@@ -37,7 +37,7 @@ function Login({ login, errors, security }) {
   };
 
   return (
-    <div className='login'>
+    <div className='login registerLoginBg'>
       <div className='container'>
         <div className='row'>
           <div className='col-md-8 m-auto'>

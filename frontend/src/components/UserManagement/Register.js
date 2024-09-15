@@ -41,7 +41,7 @@ function Register({ createNewUser, errors, security }) {
   };
 
   return (
-    <div className='register'>
+    <div className='register registerLoginBg'>
       <div className='container'>
         <div className='row'>
           <div className='col-md-8 m-auto'>

@@ -15,6 +15,8 @@
 
 ## Documentation
 
+- https://medium.com/codex/how-to-implement-a-simple-drag-and-drop-using-create-react-app-and-react-beautiful-dnd-4e6e57a2299f
+- https://www.npmjs.com/package/react-beautiful-dnd/v/11.0.2
 - https://redux-toolkit.js.org/
 - https://fontawesome.com/icons
 - https://axios-http.com/docs/config_defaults

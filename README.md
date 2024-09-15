@@ -54,6 +54,7 @@
 
 ## Documentation
 
+- https://devcenter.heroku.com/articles/heroku-cli
 - https://jwt.io/
 - https://auth0.com/docs/secure/tokens/json-web-tokens/json-web-token-claims?utm_source=google&utm_campaign=emea_nordics_fin_all_ciam-all_dg-ao_auth0_search_google_text_kw_OIDC_utm2&utm_medium=cpc&utm_id=aNK4z000000UE47GAG&gad_source=1&gclid=EAIaIQobChMIpera-r62iAMVaguiAx2KbiHFEAAYASAAEgJHY_D_BwE
 - https://www.epochconverter.com/

@@ -13,17 +13,21 @@ function Landing({ security }) {
   }, [security.validToken, navigate]);
 
   return (
-    <div className='landing'>
+    <div className='landing landingBg'>
       <div className='light-overlay landing-inner text-dark'>
         <div className='container'>
           <div className='row'>
             <div className='col-md-12 text-center'>
-              <h1 className='display-3 mb-4'>
+              <h1
+                className='display-3 mb-5'
+                style={{
+                  color: 'orange',
+                  fontFamily: 'cursive',
+                  marginTop: '-50px',
+                }}
+              >
                 Personal Project Management Tool
               </h1>
-              <p className='lead'>
-                Create your account to join active projects or start you own
-              </p>
               <hr />
               <div className='d-flex justify-content-center'>
                 <Link

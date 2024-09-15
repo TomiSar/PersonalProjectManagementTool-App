@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/securityActions';
 import { FaRegCircleUser } from 'react-icons/fa6';
+import { AiOutlineFundProjectionScreen } from 'react-icons/ai';
 
 function Header({ logout, security }) {
   const [isLoggedOut, setIsLoggedOut] = useState(false);
@@ -16,25 +17,18 @@ function Header({ logout, security }) {
   };
 
   return (
-    <nav className='bgHeader fs-4 fw-bold navbar navbar-expand-sm mb-4'>
+    <nav className='headerBg fs-4 fw-bold navbar navbar-expand-sm mb-4'>
       <div className='container'>
         <Link className='navbar-brand fs-3' to='/'>
-          Personal Project Management Tool
+          <AiOutlineFundProjectionScreen className='fs-3' /> Personal Project
+          Management Tool
         </Link>
-        <button
-          className='navbar-toggler'
-          type='button'
-          data-toggle='collapse'
-          data-target='#mobile-nav'
-        >
-          <span className='navbar-toggler-icon' />
-        </button>
 
         <div className='collapse navbar-collapse' id='mobile-nav'>
           <ul className='navbar-nav mr-auto'>
             {validToken && user && (
               <li className='nav-item'>
-                <Link className='nav-link' to='/dashboard'>
+                <Link className='nav-link m-3' to='/dashboard'>
                   Dashboard
                 </Link>
               </li>

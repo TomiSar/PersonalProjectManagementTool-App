@@ -64,7 +64,34 @@ img {
   color: #bbb !important;
 }
 
-.bgHeader {
+.landingBg {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('/images/bglanding.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.registerLoginBg {
+  background-image: url('/images/register.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -24px;
+  margin-bottom: -50px;
+}
+
+.headerBg {
   background-image: url('/images/bgheader.jpg');
   background-position: center;
   height: 100px;
