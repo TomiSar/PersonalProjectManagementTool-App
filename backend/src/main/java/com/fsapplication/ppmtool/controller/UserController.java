@@ -73,6 +73,15 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+//        User user = userService.getUserById(id);
+//        if (user == null) {
+//            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<User>(user, HttpStatus.OK);
+//    }
+
     // TO_DO Check functional Logic
 //    @PatchMapping("/{username}")
 //    public ResponseEntity<?> updateUser(@Valid @RequestBody User user, BindingResult result, @PathVariable String username) {

@@ -1,5 +1,6 @@
 package com.fsapplication.ppmtool.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -41,7 +42,11 @@ public class User  implements UserDetails {
     @JsonIgnore
     private String confirmPassword;
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    @Column(updatable = false)
     private Date create_At;
+
+    @JsonFormat(pattern = "dd-MM-yyyy")
     private Date update_At;
 
     // OneToMany with Project

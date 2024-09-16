@@ -16,9 +16,6 @@ function UpdateProjectTask({
   projectTask,
   errors,
 }) {
-  const { backlogId, projectTaskId } = useParams();
-  const navigate = useNavigate();
-
   const [projectTaskData, setProjectTaskData] = useState({
     id: '',
     projectSequence: '',
@@ -30,6 +27,9 @@ function UpdateProjectTask({
     projectIdentifier: '',
     create_At: formatDateYearFirst(projectTask.create_At),
   });
+
+  const { backlogId, projectTaskId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getProjectTask(backlogId, projectTaskId, navigate);

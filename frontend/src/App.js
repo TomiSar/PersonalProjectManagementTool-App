@@ -12,26 +12,26 @@ import UpdateProjectTask from './components/ProjectBoard/ProjectTasks/UpdateProj
 import Landing from './components/Layout/Landing';
 import Login from './components/UserManagement/Login';
 import Register from './components/UserManagement/Register';
+import UserDetails from './components/User/UserDetails';
 import SecureRoute from './utils/SecureRoute';
 import { jwtDecode } from 'jwt-decode';
 import { setJwtToken } from './utils/helpers';
 import { SET_CURRENT_USER } from './actions/types';
 import { logout } from './actions/securityActions';
 
-const jwtToken = localStorage.jwtToken;
-
+const jwtToken = localStorage.getItem('jwtToken');
 if (jwtToken) {
   setJwtToken(jwtToken);
-  const decoded_jwtToken = jwtDecode(jwtToken);
+  const decodedJwtToken = jwtDecode(jwtToken);
   store.dispatch({
     type: SET_CURRENT_USER,
-    payload: decoded_jwtToken,
+    payload: decodedJwtToken,
   });
 
   const currentTime = Date.now() / 1000;
-  if (decoded_jwtToken.exp < currentTime) {
-    store.dispatch(logout());
+  if (decodedJwtToken.exp <= currentTime) {
     window.location.href = '/';
+    store.dispatch(logout());
   }
 }
 
@@ -53,6 +53,14 @@ function App() {
               element={
                 <SecureRoute>
                   <Dashboard />
+                </SecureRoute>
+              }
+            />
+            <Route
+              path='/user/:username'
+              element={
+                <SecureRoute>
+                  <UserDetails />
                 </SecureRoute>
               }
             />

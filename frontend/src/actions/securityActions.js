@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { USERS_URL } from '../constants';
-import { GET_ERRORS, SET_CURRENT_USER } from './types';
+import { GET_ERRORS, GET_USER, SET_CURRENT_USER } from './types';
 import { jwtDecode } from 'jwt-decode';
 import { setJwtToken } from '../utils/helpers';
 
@@ -17,6 +17,18 @@ export const createNewUser = (newUser, navigate) => async (dispatch) => {
       type: GET_ERRORS,
       payload: err.response.data,
     });
+  }
+};
+
+export const getUser = (username, navigate) => async (dispatch) => {
+  try {
+    const res = await axios.get(`${USERS_URL}/${username}`);
+    dispatch({
+      type: GET_USER,
+      payload: res.data,
+    });
+  } catch (error) {
+    navigate('/dashboard');
   }
 };
 

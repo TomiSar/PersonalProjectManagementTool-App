@@ -42,6 +42,10 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+//    public User getUserById(Long id) {
+//        return userRepository.getUserById(id);
+//    }
+
     // TO_DO Check functional Logic
 //    public User updateUserByUsername(User user, String username) {
 //        User existingUser = userRepository.findByUsername(username);

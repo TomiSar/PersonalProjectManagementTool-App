@@ -40,7 +40,7 @@ function Header({ logout, security }) {
                 <>
                   {!isLoggedOut && (
                     <li className='nav-item'>
-                      <Link className='nav-link' to='/dashboard'>
+                      <Link className='nav-link' to={`/user/${user.username}`}>
                         <FaRegCircleUser className='fs-2' /> {user.fullName}
                       </Link>
                     </li>
